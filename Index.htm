@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Song → Video Maker</title>
+  <style>
+    body {
+      background:#0f0f0f;
+      color:white;
+      font-family:Arial;
+      text-align:center;
+      padding:20px;
+    }
+    textarea,input,button {
+      width:90%;
+      max-width:400px;
+      margin:10px;
+      padding:10px;
+    }
+    #scene {
+      height:200px;
+      margin:20px auto;
+      max-width:400px;
+      background:linear-gradient(120deg,#222,#333);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px;
+      font-size:20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>🎵 Song → Video Maker</h2>
+
+<input type="file" id="audioFile" accept="audio/*"><br>
+
+<textarea id="lyrics" placeholder="Paste lyrics (one line per row)"></textarea><br>
+
+<button onclick="start()">Generate Preview</button>
+
+<div id="scene"><span id="line">Lyrics will appear here</span></div>
+
+<audio id="audio" controls></audio>
+
+<script>
+let lines=[],i=0;
+
+function start(){
+  const file=document.getElementById("audioFile").files[0];
+  const text=document.getElementById("lyrics").value;
+  if(!file||!text){alert("Upload song & lyrics");return;}
+
+  lines=text.split("\n").filter(l=>l.trim());
+  i=0;
+
+  const audio=document.getElementById("audio");
+  audio.src=URL.createObjectURL(file);
+  audio.play();
+  nextLine();
+}
+
+function nextLine(){
+  if(i>=lines.length)return;
+  document.getElementById("line").innerText=lines[i++];
+  setTimeout(nextLine,3000);
+}
+</script>
+
+</body>
+</html>
